@@ -12,3 +12,6 @@ ingw=$(kubectl get svc istio-ingressgateway -n istio-system | tail -1 | awk '{pr
 }
 
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+
+echo "INGRESS_HOST=${INGRESS_HOST}"
+echo "INGRESS_PORT=${INGRESS_PORT}"
