@@ -1,0 +1,67 @@
+# Port forward to the first istio-ingressgateway pod
+alias igpf='kubectl -n istio-system port-forward --address 0.0.0.0 $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") 15000'
+
+# Get the http routes from the port-forwarded ingressgateway pod (requires jq)
+alias iroutes='curl --silent http://localhost:15000/config_dump | jq '\''.configs.dynamic_route_configs.[].route_config.virtual_hosts[] | {name: .name, domains: .domains, route: .routes[].match.prefix}'\'''
+
+# Get the logs of the first istio-ingressgateway pod
+# Shows what happens with incoming requests and possible errors
+alias igl='kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") --tail=300'
+
+# Get the logs of the first istio-pilot pod
+# Shows issues with configurations or connecting to the Envoy proxies
+alias ipl='kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath="{.items[0].metadata.name}") discovery --tail=300'
+
+function _kctl_get {
+  ns=${1};shift
+  resource=${1};shift
+  metadata=${1};shift
+  selector="$@"
+  if [[ ${selector} =~ -l ]]; then
+    res=$(kubectl -n ${ns} get ${resource} ${selector} -o=jsonpath="{.items[0].${metadata}}")
+  else
+    res=$(kubectl -n ${ns} get ${resource} ${selector} -o=jsonpath="{.${metadata}}")
+  fi
+  echo ${res}
+}
+
+# check tls status of the pod
+function i_tlscheck () {
+  [[ $# == 0 ]] && {
+    echo "arguments:"
+    echo "  <service>.<service-namespace>"
+    echo "  <istio-namespace> istio-system by default"
+    return
+  }
+
+  service=${1}
+  [[ ${service} =~ "." ]] || service=${service}.default
+  i_ns=${2:-"istio-system"}
+  igw_name=$(_kctl_get ${i_ns} pod "metadata.name" -l istio=ingressgateway)
+  istioctl authn tls-check ${igw_name}.${i_ns} ${service}.svc.cluster.local
+}
+
+function i_igw {
+  local ingw=$(kubectl get svc istio-ingressgateway -n istio-system | tail -1 | awk '{print $4}')
+  local port
+  local host
+  local secure_port
+  [[ $ingw =~ (pending|none) ]] && {
+    port=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+    secure_port=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].nodePort}')
+    host=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
+  } || {
+    host=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    port=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+    secure_port=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+}
+  export IGW_URL=$host:$port
+  export IGW_HOST=$host
+  export IGW_PORT=$port
+  export IGW_SECUREPORT=$secure_port
+  echo "IGW_URL=$IGW_URL"
+  echo "IGW_HOST=$IGW_HOST"
+  echo "IGW_PORT=$IGW_PORT"
+  echo "IGW_SECUREPORT=$IGW_SECUREPORT"
+}
+
