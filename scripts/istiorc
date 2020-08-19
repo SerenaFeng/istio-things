@@ -1,16 +1,16 @@
 # Port forward to the first istio-ingressgateway pod
-alias igpf='kubectl -n istio-system port-forward --address 0.0.0.0 $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") 15000'
+#alias igpf='kubectl -n istio-system port-forward --address 0.0.0.0 $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") 15000'
 
 # Get the http routes from the port-forwarded ingressgateway pod (requires jq)
-alias iroutes='curl --silent http://localhost:15000/config_dump | jq '\''.configs.dynamic_route_configs.[].route_config.virtual_hosts[] | {name: .name, domains: .domains, route: .routes[].match.prefix}'\'''
+#alias iroutes='curl --silent http://localhost:15000/config_dump | jq '\''.configs.dynamic_route_configs.[].route_config.virtual_hosts[] | {name: .name, domains: .domains, route: .routes[].match.prefix}'\'''
 
 # Get the logs of the first istio-ingressgateway pod
 # Shows what happens with incoming requests and possible errors
-alias igl='kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") --tail=300'
+#alias igl='kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=ingressgateway -o=jsonpath="{.items[0].metadata.name}") --tail=300'
 
 # Get the logs of the first istio-pilot pod
 # Shows issues with configurations or connecting to the Envoy proxies
-alias ipl='kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath="{.items[0].metadata.name}") discovery --tail=300'
+#alias ipl='kubectl -n istio-system logs $(kubectl -n istio-system get pods -listio=pilot -o=jsonpath="{.items[0].metadata.name}") discovery --tail=300'
 
 function _kctl_get {
   ns=${1};shift
@@ -65,3 +65,22 @@ function i_igw {
   echo "IGW_SECUREPORT=$IGW_SECUREPORT"
 }
 
+function i_tracing () {
+  ns=${1:-istio-system}
+  kubectl -n ${ns} port-forward svc/tracing --address 0.0.0.0 8080:80 &
+}
+
+function i_prometheus () {
+  ns=${1:-istio-system}
+  kubectl -n ${ns} port-forward svc/prometheus --address 0.0.0.0 9090:9090 &
+}
+
+function i_kiali () {
+  ns=${1:-istio-system}
+  kubectl -n ${ns} port-forward svc/kiali --address 0.0.0.0 20001:20001 &
+}
+
+function i_grafana () {
+  ns=${1:-istio-system}
+  kubectl -n ${ns} port-forward svc/grafana --address 0.0.0.0 3000:3000 &
+}
