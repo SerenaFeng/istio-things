@@ -1,0 +1,8 @@
+{
+	"kind":"TokenRequest",
+	"apiVersion":"authentication.k8s.io/v1",
+	"spec":{
+		"audiences":["istio-ca"],
+		"expirationSeconds":36000
+	}
+}

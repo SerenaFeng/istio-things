@@ -1,0 +1,4 @@
+VN_NAME=istio-vm
+VM_NAMESPACE=vm
+SERVICE_ACCOUNT=vm
+WORK_DIR=$(pwd)

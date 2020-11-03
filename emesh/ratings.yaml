@@ -1,0 +1,465 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    cni.projectcalico.org/podIP: 10.244.241.70/32
+    prometheus.io/path: /stats/prometheus
+    prometheus.io/port: "15020"
+    prometheus.io/scrape: "true"
+    sidecar.istio.io/status: '{"version":"8e6e902b765af607513b28d284940ee1421e9a0d07698741693b2663c7161c11","initContainers":["istio-init"],"containers":["istio-proxy"],"volumes":["istio-envoy","istio-data","istio-podinfo","istio-token","istiod-ca-cert"],"imagePullSecrets":null}'
+  creationTimestamp: "2020-10-28T07:01:12Z"
+  generateName: ratings-v2-mysql-vm-6fcf6c7f47-
+  labels:
+    app: ratings
+    istio.io/rev: default
+    pod-template-hash: 6fcf6c7f47
+    security.istio.io/tlsMode: istio
+    service.istio.io/canonical-name: ratings
+    service.istio.io/canonical-revision: v2-mysql-vm
+    version: v2-mysql-vm
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:generateName: {}
+        f:labels:
+          .: {}
+          f:app: {}
+          f:pod-template-hash: {}
+          f:version: {}
+        f:ownerReferences:
+          .: {}
+          k:{"uid":"51f0bb6a-f0aa-415c-bf56-f30edec1de14"}:
+            .: {}
+            f:apiVersion: {}
+            f:blockOwnerDeletion: {}
+            f:controller: {}
+            f:kind: {}
+            f:name: {}
+            f:uid: {}
+      f:spec:
+        f:containers:
+          k:{"name":"ratings"}:
+            .: {}
+            f:env:
+              .: {}
+              k:{"name":"DB_TYPE"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"MYSQL_DB_HOST"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"MYSQL_DB_PASSWORD"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"MYSQL_DB_PORT"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+              k:{"name":"MYSQL_DB_USER"}:
+                .: {}
+                f:name: {}
+                f:value: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:ports:
+              .: {}
+              k:{"containerPort":9080,"protocol":"TCP"}:
+                .: {}
+                f:containerPort: {}
+                f:protocol: {}
+            f:resources: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+        f:dnsPolicy: {}
+        f:enableServiceLinks: {}
+        f:restartPolicy: {}
+        f:schedulerName: {}
+        f:securityContext: {}
+        f:terminationGracePeriodSeconds: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2020-10-28T07:01:11Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          f:cni.projectcalico.org/podIP: {}
+    manager: calico
+    operation: Update
+    time: "2020-10-28T07:01:14Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          k:{"type":"ContainersReady"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Initialized"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Ready"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+        f:containerStatuses: {}
+        f:hostIP: {}
+        f:initContainerStatuses: {}
+        f:phase: {}
+        f:podIP: {}
+        f:podIPs:
+          .: {}
+          k:{"ip":"10.244.241.70"}:
+            .: {}
+            f:ip: {}
+        f:startTime: {}
+    manager: kubelet
+    operation: Update
+    time: "2020-10-28T07:01:38Z"
+  name: ratings-v2-mysql-vm-6fcf6c7f47-smktv
+  namespace: bookinfo
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: ratings-v2-mysql-vm-6fcf6c7f47
+    uid: 51f0bb6a-f0aa-415c-bf56-f30edec1de14
+  resourceVersion: "11809"
+  selfLink: /api/v1/namespaces/bookinfo/pods/ratings-v2-mysql-vm-6fcf6c7f47-smktv
+  uid: f99694ac-d1b3-4b41-be2f-769478753802
+spec:
+  containers:
+  - env:
+    - name: DB_TYPE
+      value: mysql
+    - name: MYSQL_DB_HOST
+      value: mysqldb.vm.svc.cluster.local
+    - name: MYSQL_DB_PORT
+      value: "3306"
+    - name: MYSQL_DB_USER
+      value: root
+    - name: MYSQL_DB_PASSWORD
+      value: password
+    image: docker.io/istio/examples-bookinfo-ratings-v2:1.15.0
+    imagePullPolicy: IfNotPresent
+    name: ratings
+    ports:
+    - containerPort: 9080
+      protocol: TCP
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-ds4zm
+      readOnly: true
+  - args:
+    - proxy
+    - sidecar
+    - --domain
+    - $(POD_NAMESPACE).svc.cluster.local
+    - --serviceCluster
+    - ratings.$(POD_NAMESPACE)
+    - --proxyLogLevel=warning
+    - --proxyComponentLogLevel=misc:error
+    - --trust-domain=cluster.local
+    - --concurrency
+    - "2"
+    env:
+    - name: JWT_POLICY
+      value: third-party-jwt
+    - name: PILOT_CERT_PROVIDER
+      value: istiod
+    - name: CA_ADDR
+      value: istiod.istio-system.svc:15012
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: POD_NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: INSTANCE_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.podIP
+    - name: SERVICE_ACCOUNT
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.serviceAccountName
+    - name: HOST_IP
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: status.hostIP
+    - name: CANONICAL_SERVICE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.labels['service.istio.io/canonical-name']
+    - name: CANONICAL_REVISION
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.labels['service.istio.io/canonical-revision']
+    - name: PROXY_CONFIG
+      value: |
+        {"proxyMetadata":{"DNS_AGENT":""}}
+    - name: ISTIO_META_POD_PORTS
+      value: |-
+        [
+            {"containerPort":9080,"protocol":"TCP"}
+        ]
+    - name: ISTIO_META_APP_CONTAINERS
+      value: ratings
+    - name: ISTIO_META_CLUSTER_ID
+      value: Kubernetes
+    - name: ISTIO_META_INTERCEPTION_MODE
+      value: REDIRECT
+    - name: ISTIO_META_WORKLOAD_NAME
+      value: ratings-v2-mysql-vm
+    - name: ISTIO_META_OWNER
+      value: kubernetes://apis/apps/v1/namespaces/bookinfo/deployments/ratings-v2-mysql-vm
+    - name: ISTIO_META_MESH_ID
+      value: cluster.local
+    - name: DNS_AGENT
+    - name: ISTIO_KUBE_APP_PROBERS
+      value: '{}'
+    image: docker.io/istio/proxyv2:1.7.3
+    imagePullPolicy: Always
+    name: istio-proxy
+    ports:
+    - containerPort: 15090
+      name: http-envoy-prom
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 30
+      httpGet:
+        path: /healthz/ready
+        port: 15021
+        scheme: HTTP
+      initialDelaySeconds: 1
+      periodSeconds: 2
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      limits:
+        cpu: "2"
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+        - ALL
+      privileged: false
+      readOnlyRootFilesystem: true
+      runAsGroup: 1337
+      runAsNonRoot: true
+      runAsUser: 1337
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/istio
+      name: istiod-ca-cert
+    - mountPath: /var/lib/istio/data
+      name: istio-data
+    - mountPath: /etc/istio/proxy
+      name: istio-envoy
+    - mountPath: /var/run/secrets/tokens
+      name: istio-token
+    - mountPath: /etc/istio/pod
+      name: istio-podinfo
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-ds4zm
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  initContainers:
+  - args:
+    - istio-iptables
+    - -p
+    - "15001"
+    - -z
+    - "15006"
+    - -u
+    - "1337"
+    - -m
+    - REDIRECT
+    - -i
+    - '*'
+    - -x
+    - ""
+    - -b
+    - '*'
+    - -d
+    - 15090,15021,15020
+    env:
+    - name: DNS_AGENT
+    image: docker.io/istio/proxyv2:1.7.3
+    imagePullPolicy: Always
+    name: istio-init
+    resources:
+      limits:
+        cpu: "2"
+        memory: 1Gi
+      requests:
+        cpu: 10m
+        memory: 10Mi
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        add:
+        - NET_ADMIN
+        - NET_RAW
+        drop:
+        - ALL
+      privileged: false
+      readOnlyRootFilesystem: false
+      runAsGroup: 0
+      runAsNonRoot: false
+      runAsUser: 0
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-ds4zm
+      readOnly: true
+  nodeName: master01
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext:
+    fsGroup: 1337
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-ds4zm
+    secret:
+      defaultMode: 420
+      secretName: default-token-ds4zm
+  - emptyDir:
+      medium: Memory
+    name: istio-envoy
+  - emptyDir: {}
+    name: istio-data
+  - downwardAPI:
+      defaultMode: 420
+      items:
+      - fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.labels
+        path: labels
+      - fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.annotations
+        path: annotations
+    name: istio-podinfo
+  - name: istio-token
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          audience: istio-ca
+          expirationSeconds: 43200
+          path: istio-token
+  - configMap:
+      defaultMode: 420
+      name: istio-ca-root-cert
+    name: istiod-ca-cert
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2020-10-28T07:01:19Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2020-10-28T07:01:38Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2020-10-28T07:01:38Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2020-10-28T07:01:12Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://175d58971fa5421508ef0e5eac8378a1b055aebaed10162d399eca391f6eac82
+    image: istio/proxyv2:1.7.3
+    imageID: docker-pullable://istio/proxyv2@sha256:6169d096fe60f128f1311f76c97ee1c3e5d760a45042d5c9182492745d34c658
+    lastState: {}
+    name: istio-proxy
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2020-10-28T07:01:37Z"
+  - containerID: docker://5649d671435699c72bbc6bc93a5a232749336c75cf25fe42344a2a99272ab4d3
+    image: istio/examples-bookinfo-ratings-v2:1.15.0
+    imageID: docker-pullable://istio/examples-bookinfo-ratings-v2@sha256:7a547eaedf7c0f7e5f35ed7c8cf2823f60f9fffe7837e5571ad4f0387d830a83
+    lastState: {}
+    name: ratings
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2020-10-28T07:01:33Z"
+  hostIP: 192.168.7.2
+  initContainerStatuses:
+  - containerID: docker://523d80729158879b6f1bc6856fcb1ffc5183a2ebe439c4073845c51916ebb46a
+    image: istio/proxyv2:1.7.3
+    imageID: docker-pullable://istio/proxyv2@sha256:6169d096fe60f128f1311f76c97ee1c3e5d760a45042d5c9182492745d34c658
+    lastState: {}
+    name: istio-init
+    ready: true
+    restartCount: 0
+    state:
+      terminated:
+        containerID: docker://523d80729158879b6f1bc6856fcb1ffc5183a2ebe439c4073845c51916ebb46a
+        exitCode: 0
+        finishedAt: "2020-10-28T07:01:18Z"
+        reason: Completed
+        startedAt: "2020-10-28T07:01:17Z"
+  phase: Running
+  podIP: 10.244.241.70
+  podIPs:
+  - ip: 10.244.241.70
+  qosClass: Burstable
+  startTime: "2020-10-28T07:01:12Z"

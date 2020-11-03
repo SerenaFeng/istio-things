@@ -1,0 +1,10 @@
+apiVersion: networking.istio.io/v1beta1
+kind: WorkloadEntry
+metadata:
+  name: "cloud-vm"
+  namespace: vm
+spec:
+  address: 192.168.7.4
+  labels:
+    app: cloud-vm
+  serviceAccount: vm

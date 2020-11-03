@@ -1,0 +1,117 @@
+2020-10-20T08:46:36.743224Z	info	FLAG: --concurrency="2"
+2020-10-20T08:46:36.743289Z	info	FLAG: --disableInternalTelemetry="false"
+2020-10-20T08:46:36.743299Z	info	FLAG: --domain="default.svc.cluster.local"
+2020-10-20T08:46:36.743305Z	info	FLAG: --help="false"
+2020-10-20T08:46:36.743310Z	info	FLAG: --id=""
+2020-10-20T08:46:36.743315Z	info	FLAG: --ip=""
+2020-10-20T08:46:36.743331Z	info	FLAG: --log_as_json="false"
+2020-10-20T08:46:36.743349Z	info	FLAG: --log_caller=""
+2020-10-20T08:46:36.743355Z	info	FLAG: --log_output_level="default:info"
+2020-10-20T08:46:36.743369Z	info	FLAG: --log_rotate=""
+2020-10-20T08:46:36.743374Z	info	FLAG: --log_rotate_max_age="30"
+2020-10-20T08:46:36.743379Z	info	FLAG: --log_rotate_max_backups="1000"
+2020-10-20T08:46:36.743384Z	info	FLAG: --log_rotate_max_size="104857600"
+2020-10-20T08:46:36.743389Z	info	FLAG: --log_stacktrace_level="default:none"
+2020-10-20T08:46:36.743398Z	info	FLAG: --log_target="[stdout]"
+2020-10-20T08:46:36.743404Z	info	FLAG: --meshConfig="./etc/istio/config/mesh"
+2020-10-20T08:46:36.743409Z	info	FLAG: --mixerIdentity=""
+2020-10-20T08:46:36.743413Z	info	FLAG: --outlierLogPath=""
+2020-10-20T08:46:36.743417Z	info	FLAG: --pilotIdentity=""
+2020-10-20T08:46:36.743422Z	info	FLAG: --proxyComponentLogLevel="misc:error"
+2020-10-20T08:46:36.743426Z	info	FLAG: --proxyLogLevel="warning"
+2020-10-20T08:46:36.743431Z	info	FLAG: --serviceCluster="sleep.default"
+2020-10-20T08:46:36.743436Z	info	FLAG: --serviceregistry="Kubernetes"
+2020-10-20T08:46:36.743440Z	info	FLAG: --stsPort="0"
+2020-10-20T08:46:36.743445Z	info	FLAG: --templateFile=""
+2020-10-20T08:46:36.743449Z	info	FLAG: --tokenManagerPlugin="GoogleTokenExchange"
+2020-10-20T08:46:36.743454Z	info	FLAG: --trust-domain="cluster.local"
+2020-10-20T08:46:36.743524Z	info	Version 1.6.4-58f551e08f08addfd81783e1c2ed1eabeb836168-dirty-Modified
+2020-10-20T08:46:36.743984Z	info	Obtained private IP [10.0.3.234]
+2020-10-20T08:46:36.744187Z	info	Apply proxy config from env {"proxyMetadata":{"DNS_AGENT":""}}
+
+2020-10-20T08:46:36.752032Z	info	Effective config: binaryPath: /usr/local/bin/envoy
+concurrency: 2
+configPath: ./etc/istio/proxy
+discoveryAddress: istiod.istio-system.svc:15012
+drainDuration: 45s
+envoyAccessLogService: {}
+envoyMetricsService: {}
+parentShutdownDuration: 60s
+proxyAdminPort: 15000
+proxyMetadata:
+  DNS_AGENT: ""
+serviceCluster: sleep.default
+statNameLength: 189
+statusPort: 15020
+tracing:
+  zipkin:
+    address: zipkin.istio-system:9411
+
+2020-10-20T08:46:36.752336Z	info	Proxy role: &model.Proxy{ClusterID:"", Type:"sidecar", IPAddresses:[]string{"10.0.3.234"}, ID:"sleep-8f795f47d-x7cw6.default", Locality:(*envoy_api_v2_core.Locality)(nil), DNSDomain:"default.svc.cluster.local", ConfigNamespace:"", Metadata:(*model.NodeMetadata)(nil), SidecarScope:(*model.SidecarScope)(nil), PrevSidecarScope:(*model.SidecarScope)(nil), MergedGateway:(*model.MergedGateway)(nil), ServiceInstances:[]*model.ServiceInstance(nil), IstioVersion:(*model.IstioVersion)(nil), ipv6Support:false, ipv4Support:false, GlobalUnicastIP:"", XdsResourceGenerator:model.XdsResourceGenerator(nil), Active:map[string]*model.WatchedResource(nil)}
+2020-10-20T08:46:36.752360Z	info	JWT policy is first-party-jwt
+2020-10-20T08:46:36.752504Z	info	PilotSAN []string{"istiod.istio-system.svc"}
+2020-10-20T08:46:36.752596Z	info	MixerSAN []string{"spiffe://cluster.local/ns/istio-system/sa/istio-mixer-service-account"}
+2020-10-20T08:46:36.829878Z	info	serverOptions.CAEndpoint == istiod.istio-system.svc:15012
+2020-10-20T08:46:36.830003Z	info	Using user-configured CA istiod.istio-system.svc:15012
+2020-10-20T08:46:36.830034Z	info	istiod uses self-issued certificate
+2020-10-20T08:46:36.830161Z	info	the CA cert of istiod is: -----BEGIN CERTIFICATE-----
+MIID7TCCAtWgAwIBAgIJAOIRDhOcxsx6MA0GCSqGSIb3DQEBCwUAMIGLMQswCQYD
+VQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTESMBAGA1UEBwwJU3Vubnl2YWxl
+MQ4wDAYDVQQKDAVJc3RpbzENMAsGA1UECwwEVGVzdDEQMA4GA1UEAwwHUm9vdCBD
+QTEiMCAGCSqGSIb3DQEJARYTdGVzdHJvb3RjYUBpc3Rpby5pbzAgFw0xODAxMjQx
+OTE1NTFaGA8yMTE3MTIzMTE5MTU1MVowgYsxCzAJBgNVBAYTAlVTMRMwEQYDVQQI
+DApDYWxpZm9ybmlhMRIwEAYDVQQHDAlTdW5ueXZhbGUxDjAMBgNVBAoMBUlzdGlv
+MQ0wCwYDVQQLDARUZXN0MRAwDgYDVQQDDAdSb290IENBMSIwIAYJKoZIhvcNAQkB
+FhN0ZXN0cm9vdGNhQGlzdGlvLmlvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+CgKCAQEA38uEfAatzQYqbaLou1nxJ348VyNzumYMmDDt5pbLYRrCo2pS3ki1ZVDN
+8yxIENJFkpKw9UctTGdbNGuGCiSDP7uqF6BiVn+XKAU/3pnPFBbTd0S33NqbDEQu
+IYraHSl/tSk5rARbC1DrQRdZ6nYD2KrapC4g0XbjY6Pu5l4y7KnFwSunnp9uqpZw
+uERv/BgumJ5QlSeSeCmhnDhLxooG8w5tC2yVr1yDpsOHGimP/mc8Cds4V0zfIhQv
+YzfIHphhE9DKjmnjBYLOdj4aycv44jHnOGc+wvA1Jqsl60t3wgms+zJTiWwABLdw
+zgMAa7yxLyoV0+PiVQud6k+8ZoIFcwIDAQABo1AwTjAdBgNVHQ4EFgQUOUYGtUyh
+euxO4lGe4Op1y8NVoagwHwYDVR0jBBgwFoAUOUYGtUyheuxO4lGe4Op1y8NVoagw
+DAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEANXLyfAs7J9rmBamGJvPZ
+ltx390WxzzLFQsBRAaH6rgeipBq3dR9qEjAwb6BTF+ROmtQzX+fjstCRrJxCto9W
+tC8KvXTdRfIjfCCZjhtIOBKqRxE4KJV/RBfv9xD5lyjtCPCQl3Ia6MSf42N+abAK
+WCdU6KCojA8WB9YhSCzza3aQbPTzd26OC/JblJpVgtus5f8ILzCsz+pbMimgTkhy
+AuhYRppJaQ24APijsEC9+GIaVKPg5IwWroiPoj+QXNpshuvqVQQXvGaRiq4zoSnx
+xAJz+w8tjrDWcf826VN14IL+/Cmqlg/rIfB5CHdwVIfWwpuGB66q/UiPegZMNs8a
+3g==
+-----END CERTIFICATE-----
+
+2020-10-20T08:46:36.830699Z	info	parsed scheme: ""
+2020-10-20T08:46:36.830818Z	info	scheme "" not registered, fallback to default scheme
+2020-10-20T08:46:36.830960Z	info	ccResolverWrapper: sending update to cc: {[{istiod.istio-system.svc:15012  <nil> 0 <nil>}] <nil> <nil>}
+2020-10-20T08:46:36.831022Z	info	ClientConn switching balancer to "pick_first"
+2020-10-20T08:46:36.831159Z	info	Channel switches to new LB policy "pick_first"
+2020-10-20T08:46:36.831281Z	info	Subchannel Connectivity change to CONNECTING
+2020-10-20T08:46:36.831656Z	info	pickfirstBalancer: HandleSubConnStateChange: 0xc000d52b40, {CONNECTING <nil>}
+2020-10-20T08:46:36.831751Z	info	Channel Connectivity change to CONNECTING
+2020-10-20T08:46:36.831702Z	info	Subchannel picks a new address "istiod.istio-system.svc:15012" to connect
+2020-10-20T08:46:36.832076Z	info	sds	SDS gRPC server for workload UDS starts, listening on "./etc/istio/proxy/SDS" 
+
+2020-10-20T08:46:36.832269Z	info	Starting proxy agent
+2020-10-20T08:46:36.832178Z	info	sds	Start SDS grpc server
+2020-10-20T08:46:36.832369Z	info	Opening status port 15020
+
+2020-10-20T08:46:36.832821Z	info	Received new config, creating new Envoy epoch 0
+2020-10-20T08:46:36.832859Z	info	Epoch 0 starting
+2020-10-20T08:46:36.843008Z	info	Subchannel Connectivity change to READY
+2020-10-20T08:46:36.843083Z	info	pickfirstBalancer: HandleSubConnStateChange: 0xc000d52b40, {READY <nil>}
+2020-10-20T08:46:36.843103Z	info	Channel Connectivity change to READY
+2020-10-20T08:46:36.851018Z	info	Envoy command: [-c etc/istio/proxy/envoy-rev0.json --restart-epoch 0 --drain-time-s 45 --parent-shutdown-time-s 60 --service-cluster sleep.default --service-node sidecar~10.0.3.234~sleep-8f795f47d-x7cw6.default~default.svc.cluster.local --max-obj-name-len 189 --local-address-ip-version v4 --log-format %Y-%m-%dT%T.%fZ	%l	envoy %n	%v -l warning --component-log-level misc:error --concurrency 2]
+2020-10-20T08:46:36.973158Z	warning	envoy config	[bazel-out/k8-opt/bin/external/envoy/source/common/config/_virtual_includes/grpc_stream_lib/common/config/grpc_stream.h:92] StreamAggregatedResources gRPC config stream closed: 14, no healthy upstream
+2020-10-20T08:46:36.973261Z	warning	envoy config	[bazel-out/k8-opt/bin/external/envoy/source/common/config/_virtual_includes/grpc_stream_lib/common/config/grpc_stream.h:54] Unable to establish new stream
+2020-10-20T08:46:36.982864Z	warning	envoy main	[external/envoy/source/server/server.cc:475] there is no configured limit to the number of allowed active connections. Set a limit via the runtime key overload.global_downstream_max_connections
+2020-10-20T08:46:36.987761Z	info	sds	resource:default new connection
+2020-10-20T08:46:36.987921Z	info	sds	Skipping waiting for ingress gateway secret
+2020-10-20T08:46:37.281586Z	info	cache	Root cert has changed, start rotating root cert for SDS clients
+2020-10-20T08:46:37.281710Z	info	cache	GenerateSecret default
+2020-10-20T08:46:37.282140Z	info	sds	resource:default pushed key/cert pair to proxy
+2020-10-20T08:46:37.534427Z	info	sds	resource:ROOTCA new connection
+2020-10-20T08:46:37.534590Z	info	sds	Skipping waiting for ingress gateway secret
+2020-10-20T08:46:37.534629Z	info	cache	Loaded root cert from certificate ROOTCA
+2020-10-20T08:46:37.534824Z	info	sds	resource:ROOTCA pushed root cert to proxy
+2020-10-20T08:46:37.623675Z	warning	envoy filter	[src/envoy/http/authn/http_filter_factory.cc:83] mTLS PERMISSIVE mode is used, connection can be either plaintext or TLS, and client cert can be omitted. Please consider to upgrade to mTLS STRICT mode for more secure configuration that only allows TLS connection with client cert. See https://istio.io/docs/tasks/security/mtls-migration/
+2020-10-20T08:46:37.625368Z	warning	envoy filter	[src/envoy/http/authn/http_filter_factory.cc:83] mTLS PERMISSIVE mode is used, connection can be either plaintext or TLS, and client cert can be omitted. Please consider to upgrade to mTLS STRICT mode for more secure configuration that only allows TLS connection with client cert. See https://istio.io/docs/tasks/security/mtls-migration/
+2020-10-20T08:46:39.392193Z	info	Envoy proxy is ready
