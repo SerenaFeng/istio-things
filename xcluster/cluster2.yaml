@@ -1,0 +1,18 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: remote
+  meshConfig:
+    defaultConfig:
+      proxyMetadata:
+        # Enable basic DNS proxying
+        ISTIO_META_DNS_CAPTURE: "true"
+        # Enable automatic address allocation, optional
+        ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+  values:
+    global:
+      meshID: mesh1
+      multiCluster:
+        clusterName: cluster2
+      network: network2
+      remotePilotAddress: 192.168.3.11
